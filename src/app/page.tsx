@@ -1,156 +1,158 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { Search, Scale, BookOpen, Gavel } from 'lucide-react'
+import { useState } from 'react'
+import { Search, Loader2, MessageSquare, Scale } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { useSearchStore } from '@/stores/searchStore'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { config } from '@/lib/config'
 
 export default function HomePage() {
-  const router = useRouter()
-  const { query, setQuery, search } = useSearchStore()
+  const [query, setQuery] = useState('')
+  const [response, setResponse] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleSearch = async (e?: React.FormEvent) => {
     if (e) e.preventDefault()
-    if (!query.trim()) return
     
-    // Navigate to search page and perform search
-    router.push('/search')
-    await search()
+    if (!query.trim()) {
+      setError('Lütfen bir soru yazın')
+      return
+    }
+
+    setIsLoading(true)
+    setError(null)
+    setResponse('')
+
+    try {
+      const result = await fetch('/api/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query,
+          detailedQuery: '',
+          filters: {},
+          page: 1,
+          limit: 10
+        })
+      })
+
+      const data = await result.json()
+
+      if (data.success && data.data?.llm_analysis) {
+        setResponse(data.data.llm_analysis)
+      } else {
+        setError(data.error || 'Bir hata oluştu')
+      }
+
+    } catch (err) {
+      setError('Bağlantı hatası. Backend server çalışıyor mu?')
+    } finally {
+      setIsLoading(false)
+    }
   }
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-      {/* Hero Section */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="flex justify-center mb-6">
-            <Scale className="h-16 w-16 text-blue-600" />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-4">
+      <div className="max-w-4xl mx-auto pt-12">
+        
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="flex justify-center mb-4">
+            <Scale className="h-12 w-12 text-blue-600" />
           </div>
-          
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Emsal Zeka
           </h1>
-          
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-            Yapay zeka destekli Yargıtay kararları arama sistemi. 
-            Hukuki araştırmalarınızı hızlandırın, en doğru emsal kararları bulun.
+          <p className="text-xl text-gray-600 dark:text-gray-300">
+            Aradığınız kararları, Emsal Zeka ile bulun.
           </p>
-
-          {/* Search Form */}
-          <form onSubmit={handleSearch} className="max-w-2xl mx-auto mb-12">
-            <div className="flex gap-2">
-              <Input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Örnek: tazminat davası, sigorta, trafik kazası..."
-                className="text-lg h-12"
-              />
-              <Button type="submit" size="lg" className="px-8">
-                <Search className="h-5 w-5 mr-2" />
-                Ara
-              </Button>
-            </div>
-            
-            <div className="flex justify-center mt-4 gap-2">
-              <Badge variant="secondary">Tazminat</Badge>
-              <Badge variant="secondary">Sigorta</Badge>
-              <Badge variant="secondary">İş Hukuku</Badge>
-              <Badge variant="secondary">Gayrimenkul</Badge>
-            </div>
-          </form>
         </div>
-      </div>
 
-      {/* Features Section */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          
-          <Card className="text-center">
-            <CardHeader>
-              <div className="flex justify-center mb-4">
-                <Search className="h-12 w-12 text-blue-600" />
+        {/* Search Input */}
+        <Card className="mb-8 shadow-lg">
+          <CardContent className="p-6">
+            <form onSubmit={handleSearch}>
+              <div className="flex gap-3 mb-4">
+                <Input
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Aradığınız kararlardan kısaca bahsedin... (Örnek: tahliye kararı)"
+                  className="text-lg h-14 flex-1"
+                  disabled={isLoading}
+                />
+                <Button 
+                  type="submit"
+                  disabled={isLoading || !query.trim()}
+                  size="lg"
+                  className="h-14 px-8"
+                >
+                  {isLoading ? (
+                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                  ) : (
+                    <Search className="h-5 w-5 mr-2" />
+                  )}
+                  {isLoading ? 'Emsal kararlar aranıyor...' : 'Ara'}
+                </Button>
               </div>
-              <CardTitle>Akıllı Arama</CardTitle>
-              <CardDescription>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+              
+              <p className="text-sm text-gray-500 text-center">
+                Enter'a basın ya da Ara butonuna tıklayın
               </p>
+            </form>
+          </CardContent>
+        </Card>
+
+        {/* Error Display */}
+        {error && (
+          <Card className="mb-8 border-red-200 bg-red-50 dark:bg-red-900/10">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3">
+                <div className="text-red-500">⚠️</div>
+                <p className="text-red-600 dark:text-red-400">{error}</p>
+              </div>
             </CardContent>
           </Card>
+        )}
 
-          <Card className="text-center">
-            <CardHeader>
-              <div className="flex justify-center mb-4">
-                <BookOpen className="h-12 w-12 text-green-600" />
+        {/* Loading State */}
+        {isLoading && (
+          <Card className="mb-8">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-center gap-3">
+                <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
+                <p className="text-gray-600 dark:text-gray-400">
+                  Emsal Zeka sizin için emsal kararlar arıyor...
+                </p>
               </div>
-              <CardTitle>Geniş Arşiv</CardTitle>
-              <CardDescription>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-              </p>
             </CardContent>
           </Card>
+        )}
 
-          <Card className="text-center">
+        {/* Response Display */}
+        {response && (
+          <Card className="mb-8 shadow-lg">
             <CardHeader>
-              <div className="flex justify-center mb-4">
-                <Gavel className="h-12 w-12 text-purple-600" />
-              </div>
-              <CardTitle>Hızlı Sonuç</CardTitle>
-              <CardDescription>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-              </CardDescription>
+              <CardTitle className="flex items-center gap-2 text-blue-700 dark:text-blue-300">
+                <MessageSquare className="h-5 w-5" />
+                Emsal Kararlar
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-              </p>
+              <div className="prose prose-sm max-w-none dark:prose-invert">
+                <div className="whitespace-pre-wrap text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {response}
+                </div>
+              </div>
             </CardContent>
           </Card>
-        </div>
-      </div>
+        )}
 
-      {/* Recent Decisions Preview */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-8">Son Eklenen Kararlar</h2>
-          
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="hover:shadow-md transition-shadow cursor-pointer">
-                <CardContent className="p-6">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-semibold text-lg">
-                      Yargıtay {i}. Hukuk Dairesi - 2024/{1000 + i}
-                    </h3>
-                    <Badge>Tazminat</Badge>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-3">
-                    Trafik kazasından doğan maddi ve manevi tazminat talebinin değerlendirilmesi...
-                  </p>
-                  <div className="text-xs text-gray-500">
-                    Karar Tarihi: {new Date().toLocaleDateString('tr-TR')}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          
-          <div className="text-center mt-8">
-            <Button variant="outline" size="lg">
-              Tüm Kararları Görüntüle
-            </Button>
-          </div>
+        {/* Footer */}
+        <div className="text-center text-sm text-gray-500 mt-12">
+          <p>Bu sistem yapay zeka desteklidir. Lütfen emsal kararlarınızın doğruluğunu kontrol ediniz.</p>
         </div>
       </div>
     </div>

@@ -1,36 +1,173 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Emsal Zeka - AI-Powered Legal Case Search
 
-## Getting Started
+Modern bir web uygulaması ile Yargıtay emsal kararlarında arama yapın. OpenAI GPT entegrasyonu ile akıllı arama ve analiz.
 
-First, run the development server:
+## 🚀 Özellikler
+
+- 🔍 **Akıllı Arama**: OpenAI GPT ile desteklenen semantik arama
+- ⚖️ **Hukuki Analiz**: Sorgunuza uygun hukuki değerlendirme ve öneriler  
+- 🎯 **Gelişmiş Filtreler**: Daire, kategori, tarih bazlı filtreleme
+- 📱 **Responsive Tasarım**: Modern, kullanıcı dostu arayüz
+- 🌙 **Dark Mode**: Göz yormayan karanlık tema desteği
+
+## 🛠️ Teknolojiler
+
+### Frontend
+- **Next.js 15** - React framework
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **Zustand** - State management
+- **Radix UI** - UI components
+
+### Backend  
+- **Python FastAPI** - Modern API framework
+- **OpenAI API** - GPT-3.5-turbo entegrasyonu
+- **Pydantic** - Data validation
+- **Uvicorn** - ASGI server
+
+## 📦 Kurulum
+
+### 1. Repository'yi Clone Edin
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repo-url>
+cd emsal-zeka-frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Backend Kurulumu
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd backend
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Python virtual environment oluşturun (önerilir)
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# venv\Scripts\activate     # Windows
 
-## Learn More
+# Paketleri yükleyin
+pip install -r requirements.txt
 
-To learn more about Next.js, take a look at the following resources:
+# Environment dosyasını oluşturun
+cat > .env << EOL
+OPENAI_API_KEY=your_openai_api_key_here
+FRONTEND_URL=http://localhost:3000
+EOL
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# OpenAI API key'inizi .env dosyasına ekleyin!
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Frontend Kurulumu
 
-## Deploy on Vercel
+```bash
+# Ana dizinde
+npm install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Environment dosyası oluşturun (opsiyonel)
+cat > .env.local << EOL
+BACKEND_URL=http://localhost:8000
+EOL
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 Çalıştırma
+
+### 1. Backend Server'ı Başlatın
+
+```bash
+cd backend
+python start_server.py
+```
+
+Backend şu adreste çalışacak: http://localhost:8000
+API Docs: http://localhost:8000/docs
+
+### 2. Frontend'i Başlatın
+
+```bash
+# Ana dizinde
+npm run dev
+```
+
+Frontend şu adreste çalışacak: http://localhost:3000
+
+## 📋 Kullanım
+
+1. **Basit Arama**: Ana arama kutusuna anahtar kelimeleri girin
+2. **Detaylı Arama**: Durumunuzu detaylı olarak açıklayın, AI size önerilerde bulunacak
+3. **Filtreler**: Yargıtay dairesi, kategori ve tarih filtrelerini kullanın
+4. **Sonuçlar**: Bulunan emsal kararları ve AI analizini inceleyin
+
+## ⚙️ Yapılandırma
+
+### Environment Variables
+
+#### Backend (.env)
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+FRONTEND_URL=http://localhost:3000
+```
+
+#### Frontend (.env.local) - Opsiyonel
+```env
+BACKEND_URL=http://localhost:8000
+```
+
+## 🔧 Geliştirme
+
+### Backend
+```bash
+cd backend
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+### Frontend
+```bash
+npm run dev
+```
+
+### Type Checking
+```bash
+npm run build
+```
+
+### Linting
+```bash
+npm run lint
+```
+
+## 📝 API Endpoints
+
+- `GET /` - Health check
+- `GET /health` - Detailed health status
+- `POST /api/search` - Ana arama endpoint'i
+
+Detaylı API dokümantasyonu: http://localhost:8000/docs
+
+## 🤝 Katkıda Bulunma
+
+1. Fork edin
+2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+3. Commit edin (`git commit -m 'Add some AmazingFeature'`)
+4. Push edin (`git push origin feature/amazing-feature`)
+5. Pull Request açın
+
+## 📄 Lisans
+
+Bu proje MIT lisansı altında lisanslanmıştır.
+
+## ⚠️ Önemli Notlar
+
+- OpenAI API key'i gereklidir
+- Backend ve frontend'in aynı anda çalışması gerekir
+- İlk kullanımda `.env` dosyalarını doğru yapılandırın
+
+## 🆘 Sorun Giderme
+
+### "Backend bağlantısı kurulamadı" Hatası
+- Backend server'ının çalıştığından emin olun
+- Port 8000'in kullanılabilir olduğunu kontrol edin
+- CORS ayarlarını kontrol edin
+
+### OpenAI API Hatası  
+- API key'in doğru olduğunu kontrol edin
+- API quota'nızı kontrol edin
+- İnternet bağlantınızı kontrol edin

@@ -32,6 +32,7 @@ interface SearchState {
   currentPage: number
   isLoading: boolean
   error: string | null
+  llmAnalysis: string | null
   
   // Actions
   setQuery: (query: string) => void
@@ -48,6 +49,7 @@ interface SearchState {
   setResults: (results: Decision[]) => void
   setLoading: (loading: boolean) => void
   setError: (error: string | null) => void
+  setLlmAnalysis: (analysis: string | null) => void
 }
 
 const initialFilters: SearchFilters = {
@@ -64,6 +66,7 @@ export const useSearchStore = create<SearchState>((set, get) => ({
   currentPage: 1,
   isLoading: false,
   error: null,
+  llmAnalysis: null,
   
   // Basic setters
   setQuery: (query) => set({ query }),
@@ -113,13 +116,25 @@ export const useSearchStore = create<SearchState>((set, get) => ({
         results: data.data.results, 
         totalResults: data.data.totalResults,
         currentPage: data.data.currentPage,
+        llmAnalysis: data.data.llm_analysis || null,
         isLoading: false 
       })
       
     } catch (error) {
+      let errorMessage = 'Arama sırasında bir hata oluştu'
+      
+      if (error instanceof Error) {
+        if (error.message.includes('Backend bağlantısı')) {
+          errorMessage = 'Backend server\'ına bağlanılamıyor. Lütfen backend server\'ının çalıştığından emin olun.'
+        } else {
+          errorMessage = error.message
+        }
+      }
+      
       set({ 
-        error: error instanceof Error ? error.message : 'Arama sırasında bir hata oluştu',
-        isLoading: false 
+        error: errorMessage,
+        isLoading: false,
+        llmAnalysis: null
       })
     }
   },
@@ -163,8 +178,18 @@ export const useSearchStore = create<SearchState>((set, get) => ({
       }))
       
     } catch (error) {
+      let errorMessage = 'Daha fazla sonuç yüklenirken hata oluştu'
+      
+      if (error instanceof Error) {
+        if (error.message.includes('Backend bağlantısı')) {
+          errorMessage = 'Backend server\'ına bağlanılamıyor. Lütfen backend server\'ının çalıştığından emin olun.'
+        } else {
+          errorMessage = error.message
+        }
+      }
+      
       set({ 
-        error: error instanceof Error ? error.message : 'Daha fazla sonuç yüklenirken hata oluştu',
+        error: errorMessage,
         isLoading: false 
       })
     }
@@ -174,11 +199,13 @@ export const useSearchStore = create<SearchState>((set, get) => ({
     results: [], 
     totalResults: 0, 
     currentPage: 1,
-    error: null 
+    error: null,
+    llmAnalysis: null
   }),
   
   // Direct setters for API integration
   setResults: (results) => set({ results }),
   setLoading: (isLoading) => set({ isLoading }),
   setError: (error) => set({ error }),
+  setLlmAnalysis: (llmAnalysis) => set({ llmAnalysis }),
 })) 

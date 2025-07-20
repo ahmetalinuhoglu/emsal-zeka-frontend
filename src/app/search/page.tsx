@@ -18,6 +18,7 @@ export default function SearchPage() {
     totalResults,
     isLoading,
     error,
+    llmAnalysis,
     setQuery,
     setDetailedQuery,
     setFilters,
@@ -214,6 +215,28 @@ export default function SearchPage() {
                 <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
                   <p className="text-red-600 dark:text-red-400">{error}</p>
                 </div>
+              )}
+
+              {/* LLM Analysis Display */}
+              {llmAnalysis && (
+                <Card className="mb-6">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-blue-700 dark:text-blue-300">
+                      <Search className="h-5 w-5" />
+                      Yapay Zeka Analizi
+                    </CardTitle>
+                    <CardDescription>
+                      Sorgunuz için hukuki değerlendirme ve öneriler
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="prose prose-sm max-w-none dark:prose-invert">
+                      <div className="whitespace-pre-wrap text-gray-700 dark:text-gray-300">
+                        {llmAnalysis}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               )}
 
               {/* Results List */}
