@@ -91,7 +91,7 @@ export default function HomePage() {
               </div>
               <CardTitle>Geniş Arşiv</CardTitle>
               <CardDescription>
-                Yargıtay'ın tüm dairelerinden güncel karar arşivi
+                Yargıtay&apos;ın tüm dairelerinden güncel karar arşivi
               </CardDescription>
             </CardHeader>
             <CardContent>

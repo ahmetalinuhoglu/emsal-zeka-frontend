@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Link from "next/link";
 import { Scale, Menu, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -31,18 +32,18 @@ export default function RootLayout({
 
               {/* Navigation Links */}
               <div className="hidden md:flex items-center space-x-8">
-                <a href="/" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                <Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   Ana Sayfa
-                </a>
-                <a href="/search" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                </Link>
+                <Link href="/search" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   Gelişmiş Arama
-                </a>
-                <a href="/categories" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                </Link>
+                <Link href="/categories" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   Kategoriler
-                </a>
-                <a href="/about" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                </Link>
+                <Link href="/about" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   Hakkında
-                </a>
+                </Link>
               </div>
 
               {/* User Actions */}
@@ -93,19 +94,19 @@ export default function RootLayout({
                 </h3>
                 <ul className="space-y-2 text-sm">
                   <li>
-                    <a href="/" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                    <Link href="/" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                       Ana Sayfa
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="/search" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                    <Link href="/search" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                       Gelişmiş Arama
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="/categories" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                    <Link href="/categories" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                       Kategoriler
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -116,19 +117,19 @@ export default function RootLayout({
                 </h3>
                 <ul className="space-y-2 text-sm">
                   <li>
-                    <a href="/help" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                    <Link href="/help" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                       Yardım
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="/contact" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                    <Link href="/contact" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                       İletişim
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="/privacy" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                    <Link href="/privacy" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                       Gizlilik
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>

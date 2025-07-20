@@ -75,7 +75,7 @@ export const useSearchStore = create<SearchState>((set, get) => ({
   
   // Search actions
   search: async () => {
-    const { query, detailedQuery, filters, currentPage } = get()
+    const { query, detailedQuery, filters } = get()
     
     if (!query.trim() && !detailedQuery.trim()) {
       set({ error: 'Arama sorgusu boş olamaz' })
@@ -125,7 +125,7 @@ export const useSearchStore = create<SearchState>((set, get) => ({
   },
   
   loadMore: async () => {
-    const { currentPage, isLoading, query, detailedQuery, filters, results } = get()
+    const { currentPage, isLoading, query, detailedQuery, filters } = get()
     
     if (isLoading) return
     

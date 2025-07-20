@@ -1,6 +1,6 @@
 'use client'
 
-import { Search, Filter, Calendar, Building2, Gavel, Loader2 } from 'lucide-react'
+import { Search, Filter, Calendar, Building2, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
