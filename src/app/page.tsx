@@ -74,12 +74,12 @@ export default function HomePage() {
               </div>
               <CardTitle>Akıllı Arama</CardTitle>
               <CardDescription>
-                Yapay zeka destekli semantik arama ile en ilgili kararları bulun
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Doğal dil işleme teknolojisi ile aradığınızı tam olarak anlıyoruz
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
               </p>
             </CardContent>
           </Card>
@@ -91,12 +91,12 @@ export default function HomePage() {
               </div>
               <CardTitle>Geniş Arşiv</CardTitle>
               <CardDescription>
-                Yargıtay&apos;ın tüm dairelerinden güncel karar arşivi
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Sürekli güncellenen kapsamlı veri tabanı
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
               </p>
             </CardContent>
           </Card>
@@ -108,12 +108,12 @@ export default function HomePage() {
               </div>
               <CardTitle>Hızlı Sonuç</CardTitle>
               <CardDescription>
-                Saniyeler içinde en uygun emsal kararları listeleyin
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Filtreleme ve kategorileme ile istediğinizi kolayca bulun
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
               </p>
             </CardContent>
           </Card>
