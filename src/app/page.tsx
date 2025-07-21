@@ -5,7 +5,7 @@ import { Search, Loader2, MessageSquare, Scale } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { config } from '@/lib/config'
+// Removed unused import
 
 export default function HomePage() {
   const [query, setQuery] = useState('')
@@ -48,7 +48,7 @@ export default function HomePage() {
         setError(data.error || 'Bir hata oluştu')
       }
 
-    } catch (err) {
+    } catch {
       setError('Bağlantı hatası. Backend server çalışıyor mu?')
     } finally {
       setIsLoading(false)
@@ -99,7 +99,7 @@ export default function HomePage() {
               </div>
               
               <p className="text-sm text-gray-500 text-center">
-                Enter'a basın ya da Ara butonuna tıklayın
+                Enter&apos;a basın ya da Ara butonuna tıklayın
               </p>
             </form>
           </CardContent>

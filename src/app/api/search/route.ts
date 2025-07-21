@@ -5,8 +5,23 @@ import { getBackendUrl } from '@/lib/config'
 // Backend API URL - environment aware
 const BACKEND_URL = getBackendUrl()
 
+// Define types for the request data
+interface SearchFilters {
+  daire?: string
+  category?: string
+  keywords: string[]
+}
+
+interface SearchRequestData {
+  query: string
+  detailedQuery: string
+  filters: SearchFilters
+  page: number
+  limit: number
+}
+
 // Forward search requests to Python backend
-async function forwardToBackend(requestData: any) {
+async function forwardToBackend(requestData: SearchRequestData) {
   try {
     const response = await fetch(`${BACKEND_URL}/api/search`, {
       method: 'POST',
